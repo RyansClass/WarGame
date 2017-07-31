@@ -12,20 +12,20 @@ import java.util.List;
 import org.supercsv.prefs.CsvPreference;
 
 import com.github.mygreen.supercsv.io.CsvAnnotationBeanReader;
+import com.github.mygreen.supercsv.io.CsvAnnotationBeanWriter;
 
 /**
  *
  */
 public class GameResultFile {
 
-
 	private List<GameResult> list;
 
 	/**
-	 *
+	 * コンストラクタ
 	 */
 	public GameResultFile() {
-		// TODO 自動生成されたコンストラクター・スタブ
+
 	}
 
 	public void readAll() {
@@ -44,7 +44,7 @@ public class GameResultFile {
 
 		try {
 
-			 list = csvReader.readAll();
+			list = csvReader.readAll();
 
 		} catch (IOException e) {
 
@@ -53,6 +53,39 @@ public class GameResultFile {
 		try {
 
 			csvReader.close();
+
+		} catch (IOException e) {
+
+		}
+	}
+
+	public void writeAll() {
+
+		CsvAnnotationBeanWriter<GameResult> csvWriter = null;
+
+		try {
+
+			csvWriter = new CsvAnnotationBeanWriter<GameResult>(
+					GameResult.class,
+					Files.newBufferedWriter(new File("game_result.csv").toPath(), Charset.forName("Windows-31j")),
+					CsvPreference.STANDARD_PREFERENCE);
+
+		} catch (IOException e) {
+
+		}
+
+		// ヘッダー行と全レコードデータの書き込み
+		try {
+
+			csvWriter.writeAll(list);
+
+		} catch (IOException e) {
+
+		}
+
+		try {
+
+			csvWriter.close();
 
 		} catch (IOException e) {
 
