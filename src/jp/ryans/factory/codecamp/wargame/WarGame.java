@@ -120,7 +120,8 @@ public class WarGame {
 			//
 			if (isInterruption(keyin)) {
 				// ゲーム中断
-				break;
+				keyin.close();
+				return;
 			}
 			// カードを出す
 			Card cCard = data.getCpu().getHandCard();
