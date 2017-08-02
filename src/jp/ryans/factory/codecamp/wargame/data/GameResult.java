@@ -5,11 +5,13 @@ package jp.ryans.factory.codecamp.wargame.data;
 
 import java.io.Serializable;
 
+import com.github.mygreen.supercsv.annotation.CsvBean;
 import com.github.mygreen.supercsv.annotation.CsvColumn;
 
 /**
  *
  */
+@CsvBean
 public class GameResult implements Serializable {
 
 
@@ -22,10 +24,23 @@ public class GameResult implements Serializable {
 	@CsvColumn(number=3, label="最大獲得カード枚数")
 	private int maxPossession;
 
+	public GameResult() {
+		this.games = 0;
+		this.wins = 0;
+		this.maxPossession = 0;
+
+	}
+
 	/**
+	 * @param maxPossession
+	 * @param wins
+	 * @param games
 	 *
 	 */
-	public GameResult() {
+	public GameResult(int games, int wins, int maxPossession) {
+		this.games = games;
+		this.wins = wins;
+		this.maxPossession = maxPossession;
 
 	}
 

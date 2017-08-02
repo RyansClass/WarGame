@@ -7,10 +7,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.supercsv.exception.SuperCsvException;
 import org.supercsv.prefs.CsvPreference;
 
+import com.github.mygreen.supercsv.exception.SuperCsvBindingException;
+import com.github.mygreen.supercsv.exception.SuperCsvNoMatchColumnSizeException;
 import com.github.mygreen.supercsv.io.CsvAnnotationBeanReader;
 import com.github.mygreen.supercsv.io.CsvAnnotationBeanWriter;
 
@@ -19,23 +23,36 @@ import com.github.mygreen.supercsv.io.CsvAnnotationBeanWriter;
  */
 public class GameResultFile {
 
+	private String filepath = "game_result.csv";
+
 	private List<GameResult> list;
 
 	/**
 	 * コンストラクタ
 	 */
-	public GameResultFile() {
+	public GameResultFile(String filepath) {
 
+		this.filepath = filepath;
 	}
 
 	public void readAll() {
 
 		CsvAnnotationBeanReader<GameResult> csvReader = null;
 
+		File f = new File(filepath);
+
+		if ( ! f.exists() ) {
+			list = new ArrayList<GameResult>();
+
+			list.add( new GameResult(0,0,0) );
+
+			return;
+		}
+
 		try {
 			csvReader = new CsvAnnotationBeanReader<GameResult>(
 					GameResult.class,
-					Files.newBufferedReader(new File("game_result.csv").toPath(), Charset.forName("Windows-31j")),
+					Files.newBufferedReader(f.toPath(), Charset.forName("Windows-31j")),
 					CsvPreference.STANDARD_PREFERENCE);
 
 		} catch (IOException e) {
@@ -44,19 +61,39 @@ public class GameResultFile {
 
 		try {
 
-			list = csvReader.readAll();
+			list = csvReader.readAll(true);
 
-		} catch (IOException e) {
+		}catch(SuperCsvNoMatchColumnSizeException e) {
+			list = new ArrayList<GameResult>();
+
+			list.add( new GameResult(0,0,0) );
+
+			return;
+
+		}catch(SuperCsvBindingException e) {
+			list = new ArrayList<GameResult>();
+
+			list.add( new GameResult(0,0,0) );
+
+			return;
+
+		}catch(SuperCsvException  e) {
+			list = new ArrayList<GameResult>();
+
+			list.add( new GameResult(0,0,0) );
+
+			return;
+
+		}catch (IOException e) {
+			list = new ArrayList<GameResult>();
+
+			list.add( new GameResult(0,0,0) );
+
+			return;
 
 		}
 
-		try {
-
-			csvReader.close();
-
-		} catch (IOException e) {
-
-		}
+		close(csvReader);
 	}
 
 	public void writeAll() {
@@ -67,7 +104,7 @@ public class GameResultFile {
 
 			csvWriter = new CsvAnnotationBeanWriter<GameResult>(
 					GameResult.class,
-					Files.newBufferedWriter(new File("game_result.csv").toPath(), Charset.forName("Windows-31j")),
+					Files.newBufferedWriter(new File(filepath).toPath(), Charset.forName("Windows-31j")),
 					CsvPreference.STANDARD_PREFERENCE);
 
 		} catch (IOException e) {
@@ -76,6 +113,7 @@ public class GameResultFile {
 
 		// ヘッダー行と全レコードデータの書き込み
 		try {
+			csvWriter.writeHeader();
 
 			csvWriter.writeAll(list);
 
@@ -83,13 +121,59 @@ public class GameResultFile {
 
 		}
 
-		try {
+		close(csvWriter);
+	}
 
-			csvWriter.close();
+	private void close(Object obj) {
 
-		} catch (IOException e) {
+		if ( obj instanceof CsvAnnotationBeanWriter) {
+			@SuppressWarnings("unchecked")
+			CsvAnnotationBeanWriter<GameResult> s = (CsvAnnotationBeanWriter<GameResult>) obj;
 
+			try {
+				s.close();
+
+			} catch (IOException e) {
+
+			}
+		} else if( obj instanceof CsvAnnotationBeanReader) {
+			@SuppressWarnings("unchecked")
+			CsvAnnotationBeanReader<GameResult> s = (CsvAnnotationBeanReader<GameResult>) obj;
+			try {
+				s.close();
+
+			} catch (IOException e) {
+
+			}
 		}
 	}
+
+	/**
+	 * @return list
+	 */
+	public List<GameResult> getList() {
+		return list;
+	}
+
+	public void Upadate(int size) {
+		GameResult data;
+
+		if( list.isEmpty() ) {
+			data = new GameResult(0,0,0);
+		} else {
+			data = list.get(0);
+		}
+
+		data.setGames(data.getGames()+1 );
+
+		if( size > data.getMaxPossession() ) {
+			data.setMaxPossession(size);
+		}
+		if( list.isEmpty() ) {
+			list.add(data);
+		}
+
+	}
+
 
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import jp.ryans.factory.codecamp.wargame.data.FileSerialize;
 import jp.ryans.factory.codecamp.wargame.data.GameData;
+import jp.ryans.factory.codecamp.wargame.data.GameResultFile;
 import jp.ryans.factory.codecamp.wargame.item.Card;
 import jp.ryans.factory.codecamp.wargame.item.CardRules;
 
@@ -167,6 +168,14 @@ public class WarGame {
 		} while (0 != data.getCpu().getHand().size() && 0 != data.getYou().getHand().size());
 
 		viewEnd();
+
+		GameResultFile result = new GameResultFile("game_result.csv");
+
+		result.readAll();
+
+		result.Upadate(data.getYou().getPost().size());
+
+		result.writeAll();
 
 		keyin.close();
 
