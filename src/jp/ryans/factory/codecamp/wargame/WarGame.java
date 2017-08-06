@@ -48,13 +48,19 @@ public class WarGame {
 	 */
 	private Logger logger = LogManager.getLogger(this.getClass());
 
+	private String os;
+
 	private GameData data;
 
 	/**
 	 *
 	 */
 	public WarGame() {
+		os = "";
+	}
 
+	public WarGame(String os) {
+		this.os = os;
 	}
 
 	private boolean isInterruption(Keyboard keyin) {
@@ -82,24 +88,33 @@ public class WarGame {
 
 		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(GAMEDATA_FILEPATH);
 
+		GameData result = null;
+
 		if (dataFile.isFileCheck()) {
 			// ゲーム再開するか問い合わせする
 			if (keyin.isReStart()) {
 
+
 				try {
 
-					return dataFile.read();
+					result = dataFile.read();
 
 				} catch (IOException e) {
 
-					return new GameData();
+
 				}
 			}
-
-			dataFile.delete();
 		}
 
-		return new GameData();
+		dataFile.delete();
+
+		if ( null == result ) {
+
+			result =  new GameData();
+
+		}
+
+		return result;
 	}
 
 	public void run() {
@@ -114,6 +129,8 @@ public class WarGame {
 
 			data.getYou().setHandCard(data.getDealer().getHandCard());
 		}
+
+
 
 		do {
 			// ターンの表示
@@ -171,6 +188,9 @@ public class WarGame {
 
 		GameResultFile result = new GameResultFile("game_result.csv");
 
+		result.setCharset(getScvCharset());
+
+
 		result.readAll();
 
 		result.Upadate(data.getYou().getPost().size());
@@ -209,4 +229,12 @@ public class WarGame {
 
 	}
 
+	private String getScvCharset() {
+		if( os.startsWith("windows")) {
+			return "Windows-31j";
+		} else {
+			return "UTF-8";
+		}
+
+	}
 }

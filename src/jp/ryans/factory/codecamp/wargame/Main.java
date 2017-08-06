@@ -11,8 +11,10 @@ public class Main {
 
 	public static void main(String[] args) {
 
+		String os = System.getProperty("os.name").toLowerCase();
 
-		WarGame game = new WarGame();
+
+		WarGame game = new WarGame(os);
 
 		game.run();
 	}

@@ -25,6 +25,8 @@ public class GameResultFile {
 
 	private String filepath = "game_result.csv";
 
+	private String charset = "UTF-8";
+
 	private List<GameResult> list;
 
 	/**
@@ -52,7 +54,7 @@ public class GameResultFile {
 		try {
 			csvReader = new CsvAnnotationBeanReader<GameResult>(
 					GameResult.class,
-					Files.newBufferedReader(f.toPath(), Charset.forName("Windows-31j")),
+					Files.newBufferedReader(f.toPath(), Charset.forName(this.charset)),
 					CsvPreference.STANDARD_PREFERENCE);
 
 		} catch (IOException e) {
@@ -104,7 +106,7 @@ public class GameResultFile {
 
 			csvWriter = new CsvAnnotationBeanWriter<GameResult>(
 					GameResult.class,
-					Files.newBufferedWriter(new File(filepath).toPath(), Charset.forName("Windows-31j")),
+					Files.newBufferedWriter(new File(filepath).toPath(), Charset.forName(this.charset)),
 					CsvPreference.STANDARD_PREFERENCE);
 
 		} catch (IOException e) {
@@ -172,6 +174,11 @@ public class GameResultFile {
 		if( list.isEmpty() ) {
 			list.add(data);
 		}
+
+	}
+
+	public void setCharset(String scvCharset) {
+		this.charset = scvCharset;
 
 	}
 
