@@ -15,12 +15,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * @author Ryan
  *
  */
 public class WarGame {
 
-	private static final String GAMEDATA_FILEPATH = "wargame.dat";
+	private static final String CHAR_WINDOWS = "Windows-31j";
+
+	private static final String CHAR_UTF = "UTF-8";
 
 	private static final String ERROR_GAME_DATA_WRITE = "ゲームの現在データを保存できません。";
 
@@ -52,6 +53,10 @@ public class WarGame {
 
 	private GameData data;
 
+	private String gameResultFilename;
+
+	private String interruptionFilename;
+
 	/**
 	 *
 	 */
@@ -65,7 +70,7 @@ public class WarGame {
 
 	private boolean isInterruption(Keyboard keyin) {
 
-		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(GAMEDATA_FILEPATH);
+		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(this.gameResultFilename);
 
 		if (keyin.isInterruption()) {
 
@@ -86,7 +91,7 @@ public class WarGame {
 
 	private GameData reStart(Keyboard keyin) {
 
-		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(GAMEDATA_FILEPATH);
+		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(this.gameResultFilename);
 
 		GameData result = null;
 
@@ -94,13 +99,11 @@ public class WarGame {
 			// ゲーム再開するか問い合わせする
 			if (keyin.isReStart()) {
 
-
 				try {
 
 					result = dataFile.read();
 
 				} catch (IOException e) {
-
 
 				}
 			}
@@ -108,16 +111,16 @@ public class WarGame {
 
 		dataFile.delete();
 
-		if ( null == result ) {
+		if (null == result) {
 
-			result =  new GameData();
+			result = new GameData();
 
 		}
 
 		return result;
 	}
 
-	public void run() {
+	public int run() {
 
 		Keyboard keyin = new Keyboard();
 		// ゲームの再開処理
@@ -130,8 +133,6 @@ public class WarGame {
 			data.getYou().setHandCard(data.getDealer().getHandCard());
 		}
 
-
-
 		do {
 			// ターンの表示
 			viewTrun();
@@ -139,7 +140,8 @@ public class WarGame {
 			if (isInterruption(keyin)) {
 				// ゲーム中断
 				keyin.close();
-				return;
+
+				return 0;
 			}
 			// カードを出す
 			Card cCard = data.getCpu().getHandCard();
@@ -186,10 +188,9 @@ public class WarGame {
 
 		viewEnd();
 
-		GameResultFile result = new GameResultFile("game_result.csv");
+		GameResultFile result = new GameResultFile(this.interruptionFilename);
 
 		result.setCharset(getScvCharset());
-
 
 		result.readAll();
 
@@ -198,6 +199,8 @@ public class WarGame {
 		result.writeAll();
 
 		keyin.close();
+
+		return 0;
 
 	}
 
@@ -230,11 +233,27 @@ public class WarGame {
 	}
 
 	private String getScvCharset() {
-		if( os.startsWith("windows")) {
-			return "Windows-31j";
+
+		if (os.startsWith("windows")) {
+
+			return CHAR_WINDOWS;
+
 		} else {
-			return "UTF-8";
+
+			return CHAR_UTF;
+
 		}
+	}
+
+	public void setGameResultFilename(String filepath) {
+
+		gameResultFilename = filepath;
+
+	}
+
+	public void setInterruptionFilename(String interruptionFilepath) {
+
+		interruptionFilename = interruptionFilepath;
 
 	}
 }
