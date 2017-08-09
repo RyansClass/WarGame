@@ -15,16 +15,29 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
+ * ゲームコントロールクラス
  */
 public class WarGame {
 
+	/**
+	 * Windowsの文字コード
+	 */
 	private static final String CHAR_WINDOWS = "Windows-31j";
 
+	/**
+	 * MacもしくはLinuxの文字コード
+	 */
 	private static final String CHAR_UTF = "UTF-8";
+	
 
+	/**
+	 * エラーメッセージ
+	 */
 	private static final String ERROR_GAME_DATA_WRITE = "ゲームの現在データを保存できません。";
 
+	/**
+	 * 画面出力メッセージ
+	 */
 	private static final String TEXT_TUEN_TITLE = "### 第 %2d 回戦 ###";
 	private static final String TEXT_TUEN_FIELD = "場に積まれた札: %2d枚";
 	private static final String TEXT_TUEN_CPU = "CPUの持ち札:%2d枚, 獲得した札:%2d枚";
@@ -49,6 +62,7 @@ public class WarGame {
 	 */
 	private Logger logger = LogManager.getLogger(this.getClass());
 
+	
 	private String os;
 
 	private GameData data;
