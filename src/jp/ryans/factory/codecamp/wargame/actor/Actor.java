@@ -58,5 +58,9 @@ public abstract class Actor implements Serializable {
 		return this.post.getCard();
 	}
 
+	public boolean isHandEmpty() {
+		return this.hand.isEmpty();
+	}
+
 
 }

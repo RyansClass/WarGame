@@ -18,6 +18,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class WarGame {
 
+	private static final String WINDOWS = "windows";
+
 	/**
 	 * Windowsの文字コード
 	 */
@@ -28,6 +30,15 @@ public class WarGame {
 	 */
 	private static final String CHAR_UTF = "UTF-8";
 
+	/**
+	 * 正常終了
+	 */
+	private static final int SUCCESSFUL = 0;
+
+	/**
+	 * 異常終了
+	 */
+	private static final int ABEND = 1;
 
 	/**
 	 * エラーメッセージ
@@ -85,7 +96,7 @@ public class WarGame {
 	 * コンストラクタ
 	 */
 	public WarGame() {
-		os = "";
+		os = WINDOWS;
 	}
 
 	/**
@@ -96,119 +107,89 @@ public class WarGame {
 		this.os = os;
 	}
 
-
-	public int run() {
-
-		Keyboard keyin = new Keyboard();
-		// ゲームの再開処理
-		data = reStart(keyin);
-		// カードを配る
-		while (!data.getDealer().isHandEmpty()) {
-
-			data.getCpu().setHandCard(data.getDealer().getHandCard());
-
-			data.getYou().setHandCard(data.getDealer().getHandCard());
-		}
-
-		do {
-			// ターンの表示
-			viewTrun();
-			//
-			if (isInterruption(keyin)) {
-				// ゲーム中断
-				keyin.close();
-				return 0;
-			}
-			// カードを出す
-			Card cCard = data.getCpu().getHandCard();
-			Card yCard = data.getYou().getHandCard();
-			// デッキの表示
-			viewDeck(cCard, yCard);
-			// ディーラーへCPUのカードを渡す
-			data.getDealer().setHandCard(cCard);
-			// ディーラーへあなたのカードを渡す
-			data.getDealer().setHandCard(yCard);
-			// カードの判定
-			data.getDealer().judgement(data.getCpu(),data.getYou());
-			// 次のターン
-			data.incrementTurn();
-			// ゲームの終了判定
-		} while (0 != data.getCpu().getHand().size() && 0 != data.getYou().getHand().size());
-		// ゲームの終了
-		viewEnd();
-		// ゲームの結果を保存する
-		writeGameResult();
-
-		keyin.close();
-
-		return 0;
-
-	}
-
-	private void writeGameResult() {
-		GameResultFile result = new GameResultFile(this.interruptionFilename);
-
-		result.setCharset(getScvCharset());
-
-		result.readAll();
-
-		result.Upadate(data.getYou().getPost().size());
-
-		result.writeAll();
-
-	}
-
-	private void viewDeck(Card cCard, Card yCard) {
-		System.out.println(String.format(TEXT_TUEN_CPU_DECK, cCard));
-		System.out.println(String.format(TEXT_TUEN_YOU_DECK, yCard));
-	}
-
-	private void viewEnd() {
-		System.out.println(TEXT_RESULT_TITLE);
-		System.out.println(String.format(TEXT_RESULT_CPU, data.getCpu().getPost().size()));
-		System.out.println(String.format(TEXT_RESULT_USER, data.getYou().getPost().size()));
-		int r = data.getYou().getPost().size() - data.getCpu().getPost().size();
-		if (0 == r) {
-			System.out.println(TEXT_RESULT_DRAW);
-		} else if (0 < r) {
-			System.out.println(TEXT_RESULT_WIN);
-		} else {
-			System.out.println(TEXT_RESULT_LOSS);
-		}
-
-	}
-
-	private void viewTrun() {
-		System.out.println(String.format(TEXT_TUEN_TITLE, data.getTurn()));
-		System.out.println(String.format(TEXT_TUEN_FIELD, data.getDealer().getPost().size()));
-		System.out.println(String.format(TEXT_TUEN_CPU, data.getCpu().getHand().size(), data.getCpu().getPost().size()));
-		System.out.println(String.format(TEXT_TUEN_USER, data.getYou().getHand().size(), data.getYou().getPost().size()));
-
-	}
-
-	private String getScvCharset() {
-
-		if (os.startsWith("windows")) {
-
-			return CHAR_WINDOWS;
-
-		} else {
-
-			return CHAR_UTF;
-
-		}
-	}
-
+	/**
+	 * ゲームの結果ファイルのパスを設定
+	 * @param filepath ファイルパス
+	 */
 	public void setGameResultFilename(String filepath) {
 
 		gameResultFilename = filepath;
 
 	}
 
+	/**
+	 * ゲームの中断データのファイルパスの設定
+	 * @param interruptionFilepath ファイルパス
+	 */
 	public void setInterruptionFilename(String interruptionFilepath) {
 
 		interruptionFilename = interruptionFilepath;
 
+	}
+
+	/**
+	 * ゲーム実行
+	 * @return 終了コード SUCCESSFUL:正常終了 ABEND:異常終了
+	 */
+	public int run() {
+
+		int result = SUCCESSFUL;
+		Keyboard keyin = new Keyboard();
+
+		try {
+			// ゲームの再開処理
+			data = reStart(keyin);
+			// カードを配る
+			dealCards();
+
+			do {
+				// ターンの表示
+				viewTrun();
+				//
+				if (isInterruption(keyin)) {
+					// ゲーム中断
+					keyin.close();
+					return result;
+				}
+				// カードを出す
+				Card cCard = data.getCpu().getHandCard();
+				Card yCard = data.getYou().getHandCard();
+				// デッキの表示
+				viewDeck(cCard, yCard);
+				// ディーラーへCPUのカードを渡す
+				data.getDealer().setHandCard(cCard);
+				// ディーラーへあなたのカードを渡す
+				data.getDealer().setHandCard(yCard);
+				// カードの判定
+				data.getDealer().judgement(data.getCpu(), data.getYou());
+				// 次のターン
+				data.incrementTurn();
+				// ゲームの終了判定 手持ちのカードをプレイヤーは持っている場合は繰り返す
+			} while (!data.getCpu().isHandEmpty() && !data.getYou().isHandEmpty());
+			// ゲームの終了
+			viewEnd();
+			// ゲームの結果を保存する
+			writeGameResult();
+
+		} catch (Exception e) {
+
+			result = ABEND;
+
+		} finally {
+			keyin.close();
+		}
+
+		return result;
+
+	}
+
+	private void dealCards() {
+		while (!data.getDealer().isHandEmpty()) {
+
+			data.getCpu().setHandCard(data.getDealer().getHandCard());
+
+			data.getYou().setHandCard(data.getDealer().getHandCard());
+		}
 	}
 
 	private boolean isInterruption(Keyboard keyin) {
@@ -261,6 +242,60 @@ public class WarGame {
 		}
 
 		return result;
+	}
+
+	private void viewDeck(Card cCard, Card yCard) {
+		System.out.println(String.format(TEXT_TUEN_CPU_DECK, cCard));
+		System.out.println(String.format(TEXT_TUEN_YOU_DECK, yCard));
+	}
+
+	private void viewEnd() {
+		System.out.println(TEXT_RESULT_TITLE);
+		System.out.println(String.format(TEXT_RESULT_CPU, data.getCpu().getPost().size()));
+		System.out.println(String.format(TEXT_RESULT_USER, data.getYou().getPost().size()));
+		int r = data.getYou().getPost().size() - data.getCpu().getPost().size();
+		if (0 == r) {
+			System.out.println(TEXT_RESULT_DRAW);
+		} else if (0 < r) {
+			System.out.println(TEXT_RESULT_WIN);
+		} else {
+			System.out.println(TEXT_RESULT_LOSS);
+		}
+
+	}
+
+	private void viewTrun() {
+		System.out.println(String.format(TEXT_TUEN_TITLE, data.getTurn()));
+		System.out.println(String.format(TEXT_TUEN_FIELD, data.getDealer().getPost().size()));
+		System.out.println(String.format(TEXT_TUEN_CPU, data.getCpu().getHand().size(), data.getCpu().getPost().size()));
+		System.out.println(String.format(TEXT_TUEN_USER, data.getYou().getHand().size(), data.getYou().getPost().size()));
+
+	}
+
+	private void writeGameResult() {
+
+		String charSet;
+
+		if (os.startsWith(WINDOWS)) {
+
+			charSet = CHAR_WINDOWS;
+
+		} else {
+
+			charSet = CHAR_UTF;
+
+		}
+
+		GameResultFile result = new GameResultFile(this.interruptionFilename);
+
+		result.setCharset(charSet);
+
+		result.readAll();
+
+		result.Upadate(data.getYou().getPost().size());
+
+		result.writeAll();
+
 	}
 
 }

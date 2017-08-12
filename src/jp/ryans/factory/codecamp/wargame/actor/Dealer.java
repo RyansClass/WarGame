@@ -34,10 +34,6 @@ public class Dealer extends Actor {
 		this.hand.shuffle();
 	}
 
-	public boolean isHandEmpty() {
-		return this.hand.isEmpty();
-	}
-
 	@Override
 	public void putPost(Trump trmp) {
 		// 何もしない
