@@ -3,7 +3,9 @@
  */
 package jp.ryans.factory.codecamp.wargame.actor;
 
+import jp.ryans.factory.codecamp.wargame.WarGame;
 import jp.ryans.factory.codecamp.wargame.item.Card;
+import jp.ryans.factory.codecamp.wargame.item.CardRules;
 import jp.ryans.factory.codecamp.wargame.item.Trump;
 import jp.ryans.factory.codecamp.wargame.item.Trump.TrumpType;
 
@@ -50,5 +52,32 @@ public class Dealer extends Actor {
 		this.getPost().add(y);
 		return y.compareTo(c);
 	}
+
+	public void judgement(Player cpu, Player you) {
+
+		switch (judgement()) {
+
+		case CardRules.WIN:
+			System.out.println(WarGame.TEXT_TUEN_WIN);
+			you.putPost(this.getPost());
+
+			break;
+
+		case CardRules.LOSS:
+			System.out.println(WarGame.TEXT_TUEN_LOSS);
+
+			cpu.putPost(this.getPost());
+
+			break;
+
+		case CardRules.DRAW:
+			System.out.println(WarGame.TEXT_TUEN_DRAW);
+
+			break;
+
+		}
+	}
+
+
 
 }
