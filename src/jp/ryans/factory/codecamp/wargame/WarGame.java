@@ -172,7 +172,7 @@ public class WarGame {
 			writeGameResult();
 
 		} catch (Exception e) {
-
+			logger.error(e.toString());
 			result = ABEND;
 
 		} finally {
