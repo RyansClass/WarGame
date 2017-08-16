@@ -18,14 +18,6 @@ public class Keyboard {
 	public static final String INPUT_D = "d";
 	public static final String INPUT_Q = "q";
 
-	public static final String PROMPT_RESTART = "中断したゲームを再開しますか? [ %s(Yes)/ %s(No)] >";
-
-	public static final String PROMPT_INTERRRUPT = "札を切りますか? (%s:札を切る, %s:中断) >";
-
-	public static final String RESTART_MESSAGE = "中断したゲームを再開します。";
-
-	public static final String INTERRRUPT_MESSAGE = "dまたはqの文字を入力してください。";
-
 
 	/**
 	 * スキャナー
@@ -48,12 +40,12 @@ public class Keyboard {
 
 	public boolean isReStart() {
 		while (true) {
-			System.out.print( String.format( PROMPT_RESTART ,INPUT_Y, INPUT_N) );
+			System.out.print( String.format(Main.resource.findByPromptId( WarGame.PROMPT_RESTART)  ,INPUT_Y, INPUT_N) );
 			String str = scanner.next();
 
 			if (INPUT_Y.equalsIgnoreCase(str)) {
 				// yが入力されたらゲームの再開
-				System.out.println(RESTART_MESSAGE);
+				System.out.println(Main.resource.findByStringsId(WarGame.RESTART_MESSAGE));
 				return true;
 			} else if (INPUT_N.equalsIgnoreCase(str)) {
 				// nが入力されたら新規にゲームを開始
@@ -64,7 +56,7 @@ public class Keyboard {
 
 	public boolean isInterruption() {
 		while (true) {
-			System.out.print( String.format( PROMPT_INTERRRUPT ,INPUT_D, INPUT_Q) );
+			System.out.print( String.format(Main.resource.findByPromptId( WarGame.PROMPT_INTERRRUPT) ,INPUT_D, INPUT_Q) );
 			String str = scanner.next();
 
 			if (INPUT_D.equalsIgnoreCase(str)) {
@@ -74,7 +66,7 @@ public class Keyboard {
 				// qが入力されたらゲームを中断
 				return true;
 			}
-			System.out.println(INTERRRUPT_MESSAGE);
+			System.out.println( Main.resource.findByErrorsId(WarGame.INTERRRUPT_MESSAGE));
 
 		}
 	}

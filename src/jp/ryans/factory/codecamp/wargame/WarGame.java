@@ -18,7 +18,10 @@ import org.apache.logging.log4j.Logger;
  */
 public class WarGame {
 
-	private static final String WINDOWS = "windows";
+	/**
+	 * デフォルトOS
+	 */
+	private static final String WINDOWS = Main.WINDOWS;
 
 	/**
 	 * Windowsの文字コード
@@ -33,39 +36,53 @@ public class WarGame {
 	/**
 	 * 正常終了
 	 */
-	private static final int SUCCESSFUL = 0;
+	private static final int SUCCESSFUL = Main.SUCCESSFUL;
 
 	/**
 	 * 異常終了
 	 */
-	private static final int ABEND = 1;
+	private static final int ABEND = Main.ABEND;
 
 	/**
 	 * エラーメッセージ
 	 */
-	private static final String ERROR_GAME_DATA_WRITE = "ゲームの現在データを保存できません。";
+	public static final int INTERRRUPT_MESSAGE = 1;
+
+	private static final int ERROR_GAME_DATA_WRITE = 2;
 
 	/**
 	 * 画面出力メッセージ
 	 */
-	private static final String TEXT_TUEN_TITLE = "### 第 %2d 回戦 ###";
-	private static final String TEXT_TUEN_FIELD = "場に積まれた札: %2d枚";
-	private static final String TEXT_TUEN_CPU = "CPUの持ち札:%2d枚, 獲得した札:%2d枚";
-	private static final String TEXT_TUEN_USER = "あなたの持ち札:%2d枚, 獲得した札:%2d枚";
+	private static final int TEXT_TUEN_TITLE = 1;
+	private static final int TEXT_TUEN_FIELD = 2;
+	private static final int TEXT_TUEN_CPU = 3;
+	private static final int TEXT_TUEN_USER = 4;
 
-	private static final String TEXT_TUEN_CPU_DECK = "CPUが切った札:[%s]";
-	private static final String TEXT_TUEN_YOU_DECK = "あなたが切った札:[%s]";
+	private static final int TEXT_TUEN_CPU_DECK = 5;
+	private static final int TEXT_TUEN_YOU_DECK = 6;
 
-	public static final String TEXT_TUEN_WIN = "あなたが獲得しました!";
-	public static final String TEXT_TUEN_LOSS = "CPUが獲得しました。";
-	public static final String TEXT_TUEN_DRAW = "引き分けです。";
+	public static final int TEXT_TUEN_WIN = 7;
+	public static final int TEXT_TUEN_LOSS = 8;
+	public static final int TEXT_TUEN_DRAW = 9;
 
-	private static final String TEXT_RESULT_TITLE = "### 最終結果 ###";
-	private static final String TEXT_RESULT_CPU = "CPUが獲得した札:%2d枚";
-	private static final String TEXT_RESULT_USER = "あなたが獲得した札:%2d枚";
-	private static final String TEXT_RESULT_WIN = "あなたが勝ちました、おめでとう!";
-	private static final String TEXT_RESULT_LOSS = "あなたの負けです、残念。";
-	private static final String TEXT_RESULT_DRAW = "引き分けです。";
+	private static final int TEXT_RESULT_TITLE = 10;
+	private static final int TEXT_RESULT_CPU = 11;
+	private static final int TEXT_RESULT_USER = 12;
+	private static final int TEXT_RESULT_WIN = 13;
+	private static final int TEXT_RESULT_LOSS = 14;
+	private static final int TEXT_RESULT_DRAW = 15;
+
+	public static final int TEXT_START_NEW = 16;
+	public static final int TEXT_START_RENEW = 17;
+
+	public static final int PROMPT_RESTART = 99;
+
+	public static final int PROMPT_INTERRRUPT = 2;
+
+	public static final int  RESTART_MESSAGE = 18;
+
+
+
 
 	/**
 	 * ログ出力
@@ -96,12 +113,13 @@ public class WarGame {
 	 * コンストラクタ
 	 */
 	public WarGame() {
-		os = WINDOWS;
+		this.os = WINDOWS;
 	}
 
 	/**
 	 * コンストラクタ
 	 * @param os 実行環境のOS名
+	 * @param resource
 	 */
 	public WarGame(String os) {
 		this.os = os;
@@ -113,7 +131,7 @@ public class WarGame {
 	 */
 	public void setGameResultFilename(String filepath) {
 
-		gameResultFilename = filepath;
+		this.gameResultFilename = filepath;
 
 	}
 
@@ -123,7 +141,7 @@ public class WarGame {
 	 */
 	public void setInterruptionFilename(String interruptionFilepath) {
 
-		interruptionFilename = interruptionFilepath;
+		this.interruptionFilename = interruptionFilepath;
 
 	}
 
@@ -148,7 +166,6 @@ public class WarGame {
 				//
 				if (isInterruption(keyin)) {
 					// ゲーム中断
-					keyin.close();
 					return result;
 				}
 				// カードを出す
@@ -204,7 +221,7 @@ public class WarGame {
 
 			} catch (IOException e) {
 
-				logger.error(ERROR_GAME_DATA_WRITE);
+				logger.error(Main.resource.findByErrorsId( ERROR_GAME_DATA_WRITE));
 			}
 			// ゲーム中断
 			return true;
@@ -228,8 +245,10 @@ public class WarGame {
 					result = dataFile.read();
 
 				} catch (IOException e) {
-
+					System.out.println(Main.resource.findByStringsId(TEXT_START_RENEW));
 				}
+			} else {
+				System.out.println(Main.resource.findByStringsId(TEXT_START_NEW));
 			}
 		}
 
@@ -245,30 +264,31 @@ public class WarGame {
 	}
 
 	private void viewDeck(Card cCard, Card yCard) {
-		System.out.println(String.format(TEXT_TUEN_CPU_DECK, cCard));
-		System.out.println(String.format(TEXT_TUEN_YOU_DECK, yCard));
+		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_CPU_DECK), cCard));
+		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_YOU_DECK), yCard));
 	}
 
 	private void viewEnd() {
-		System.out.println(TEXT_RESULT_TITLE);
-		System.out.println(String.format(TEXT_RESULT_CPU, data.getCpu().getPost().size()));
-		System.out.println(String.format(TEXT_RESULT_USER, data.getYou().getPost().size()));
+		System.out.println(Main.resource.findByStringsId(TEXT_RESULT_TITLE));
+		System.out.println(String.format(Main.resource.findByStringsId(TEXT_RESULT_CPU), data.getCpu().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(TEXT_RESULT_USER), data.getYou().getPost().size()));
+
 		int r = data.getYou().getPost().size() - data.getCpu().getPost().size();
 		if (0 == r) {
-			System.out.println(TEXT_RESULT_DRAW);
+			System.out.println(Main.resource.findByStringsId(TEXT_RESULT_DRAW));
 		} else if (0 < r) {
-			System.out.println(TEXT_RESULT_WIN);
+			System.out.println(Main.resource.findByStringsId(TEXT_RESULT_WIN));
 		} else {
-			System.out.println(TEXT_RESULT_LOSS);
+			System.out.println(Main.resource.findByStringsId(TEXT_RESULT_LOSS));
 		}
 
 	}
 
 	private void viewTrun() {
-		System.out.println(String.format(TEXT_TUEN_TITLE, data.getTurn()));
-		System.out.println(String.format(TEXT_TUEN_FIELD, data.getDealer().getPost().size()));
-		System.out.println(String.format(TEXT_TUEN_CPU, data.getCpu().getHand().size(), data.getCpu().getPost().size()));
-		System.out.println(String.format(TEXT_TUEN_USER, data.getYou().getHand().size(), data.getYou().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_TITLE), data.getTurn()));
+		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_FIELD), data.getDealer().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_CPU), data.getCpu().getHand().size(), data.getCpu().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_USER), data.getYou().getHand().size(), data.getYou().getPost().size()));
 
 	}
 

@@ -3,71 +3,60 @@
  */
 package jp.ryans.factory.codecamp.wargame.resource;
 
-import com.google.gson.Gson;
+import java.util.ArrayList;
+
 
 /**
- * @author Ryan
  *
  */
 public class Strings {
 
-	public class IdSet {
+
+
+	public class IdSetText {
 
 		public int id;
 
 		public String text;
 
 
-		public IdSet() {
+		public IdSetText() {
 
 		}
 
-		public IdSet(int id,String text) {
-			this.id = id;
-			this.text = text;
+	}
+
+
+	public String app;
+
+	public String version;
+
+	public String description;
+
+	public ArrayList<IdSetText> prompt;
+
+	public ArrayList<IdSetText> strings;
+
+	public ArrayList<IdSetText> errors;
+
+
+	public String findByPromptId(int id) {
+		return findById(id,prompt);
+	}
+	public String findByStringsId(int id) {
+		return findById(id,strings);
+	}
+	public String findByErrorsId(int id) {
+		return findById(id,errors);
+	}
+
+	private String findById(int id,ArrayList<IdSetText> list) {
+		for(IdSetText idset:  list) {
+			if( idset.id == id ) {
+				return idset.text;
+			}
 		}
+		throw new IllegalArgumentException("コーディングミス");
 	}
-
-
-	public class Json {
-
-
-		public String name;
-
-
-		public IdSet ids;
-
-		public Json() {
-
-		}
-		public Json(String name,IdSet ids) {
-
-			this.name = name;
-
-			this.ids = new IdSet(ids.id,ids.text);
-		}
-	}
-
-	private String path;
-
-	private Gson gson;
-
-	/**
-	 *
-	 */
-	public Strings(String local) {
-		path = "resource/string/" + local + "string.json";
-	}
-
-	public String findByResource(String name,int id) {
-		String result = "";
-		Gson gson = new Gson();
-
-
-
-		return result;
-	}
-
-
 
 }

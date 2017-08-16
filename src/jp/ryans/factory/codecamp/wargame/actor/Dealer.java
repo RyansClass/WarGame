@@ -3,6 +3,7 @@
  */
 package jp.ryans.factory.codecamp.wargame.actor;
 
+import jp.ryans.factory.codecamp.wargame.Main;
 import jp.ryans.factory.codecamp.wargame.WarGame;
 import jp.ryans.factory.codecamp.wargame.item.Card;
 import jp.ryans.factory.codecamp.wargame.item.CardRules;
@@ -49,25 +50,25 @@ public class Dealer extends Actor {
 		return y.compareTo(c);
 	}
 
-	public void judgement(Player cpu, Player you) {
+	public void judgement(Player cpu, Player you){
 
 		switch (judgement()) {
 
 		case CardRules.WIN:
-			System.out.println(WarGame.TEXT_TUEN_WIN);
+			System.out.println(Main.resource.findByStringsId(WarGame.TEXT_TUEN_WIN));
 			you.putPost(this.getPost());
 
 			break;
 
 		case CardRules.LOSS:
-			System.out.println(WarGame.TEXT_TUEN_LOSS);
+			System.out.println(Main.resource.findByStringsId(WarGame.TEXT_TUEN_LOSS));
 
 			cpu.putPost(this.getPost());
 
 			break;
 
 		case CardRules.DRAW:
-			System.out.println(WarGame.TEXT_TUEN_DRAW);
+			System.out.println(Main.resource.findByStringsId(WarGame.TEXT_TUEN_DRAW));
 
 			break;
 
