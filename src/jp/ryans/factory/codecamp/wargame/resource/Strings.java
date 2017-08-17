@@ -5,58 +5,92 @@ package jp.ryans.factory.codecamp.wargame.resource;
 
 import java.util.ArrayList;
 
-
 /**
  *
  */
 public class Strings {
 
-
-
-	public class IdSetText {
+	private class IdSetText {
 
 		public int id;
 
 		public String text;
 
+	}
 
-		public IdSetText() {
+	private static Strings instance;
+
+	public static Strings getInstance(String loc) {
+
+		if (instance == null) {
+
+
+			JsonFile<Strings> jf = new JsonFile<Strings>(loc);
+
+
+			instance = jf.loadFile(Strings.class);
 
 		}
 
+		return instance;
 	}
 
+	private String app;
 
-	public String app;
+	private String version;
 
-	public String version;
+	private String description;
 
-	public String description;
+	private ArrayList<IdSetText> prompt;
 
-	public ArrayList<IdSetText> prompt;
+	private ArrayList<IdSetText> strings;
 
-	public ArrayList<IdSetText> strings;
+	private ArrayList<IdSetText> errors;
 
-	public ArrayList<IdSetText> errors;
+	private Strings() {
 
-
-	public String findByPromptId(int id) {
-		return findById(id,prompt);
 	}
-	public String findByStringsId(int id) {
-		return findById(id,strings);
-	}
+
 	public String findByErrorsId(int id) {
-		return findById(id,errors);
+		return findById(id, errors);
 	}
 
-	private String findById(int id,ArrayList<IdSetText> list) {
-		for(IdSetText idset:  list) {
-			if( idset.id == id ) {
+	private String findById(int id, ArrayList<IdSetText> list) {
+		for (IdSetText idset : list) {
+			if (idset.id == id) {
 				return idset.text;
 			}
 		}
 		throw new IllegalArgumentException("コーディングミス");
+	}
+
+	public String findByPromptId(int id) {
+		return findById(id, prompt);
+	}
+
+	public String findByStringsId(int id) {
+		return findById(id, strings);
+	}
+
+	/**
+	 * @return app
+	 */
+	public String getApp() {
+		return app;
+	}
+
+	/**
+	 * @return description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @return version
+	 */
+	public String getVersion() {
+		return version;
 	}
 
 }

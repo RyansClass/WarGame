@@ -16,25 +16,34 @@ import com.google.gson.Gson;
  */
 public class JsonFile<T> {
 
-	/**
-	 *
-	 */
-	public JsonFile() {
+
+	private String path = "resource/string/%s/strings.json";
+
+	public JsonFile(String loc) {
+
+		path = String.format(path, loc);
 
 	}
 
 	public T loadFile(Class<T> classOfT) {
+
 		Gson gson = new Gson();
+
 		byte[] buffer;
+
 		String content = "";
+
 		try {
-			buffer = Files.readAllBytes(Paths.get("resource/string/ja/strings.json"));
+
+			buffer = Files.readAllBytes(Paths.get(path));
+
 			content = new String(buffer, StandardCharsets.UTF_8);
 
 		} catch (IOException e) {
-			return null;
-		}
 
+			return null;
+
+		}
 
 		return  gson.fromJson(content, classOfT);
 

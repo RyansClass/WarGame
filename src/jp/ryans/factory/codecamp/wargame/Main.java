@@ -5,7 +5,8 @@
  */
 package jp.ryans.factory.codecamp.wargame;
 
-import jp.ryans.factory.codecamp.wargame.resource.JsonFile;
+import java.util.Locale;
+
 import jp.ryans.factory.codecamp.wargame.resource.Strings;
 
 /**
@@ -45,21 +46,28 @@ public class Main {
 	private static final String INTERRUPTION_FILEPATH = "wargame.dat";
 
 
+	/**
+	 * 国際化対応リソース
+	 */
 	public static Strings resource;
 
 
 	/**
 	 * 実行メッソド
-	 * @param args 実行時引数
+	 * @param args 言語指定
 	 */
 	public static void main(String[] args) {
 
+		// 実行時に引数があれば言語指定
+		if ( 0 == args.length ) {
+			// デフォルトの言語
+			resource = Strings.getInstance(Locale.getDefault().getLanguage());
+		} else {
+			// 言語指定
+			resource = Strings.getInstance(args[0]);
+		}
+
 		String os = WINDOWS;
-
-		JsonFile<Strings> jf = new JsonFile<Strings>();
-
-
-		resource = jf.loadFile(Strings.class);
 
 		try{
 			// 環境変数からOSの名前を取得する

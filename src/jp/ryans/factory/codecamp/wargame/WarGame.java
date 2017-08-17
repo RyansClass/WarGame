@@ -75,7 +75,7 @@ public class WarGame {
 	public static final int TEXT_START_NEW = 16;
 	public static final int TEXT_START_RENEW = 17;
 
-	public static final int PROMPT_RESTART = 99;
+	public static final int PROMPT_RESTART = 1;
 
 	public static final int PROMPT_INTERRRUPT = 2;
 
