@@ -9,6 +9,7 @@ import jp.ryans.factory.codecamp.wargame.data.FileSerialize;
 import jp.ryans.factory.codecamp.wargame.data.GameData;
 import jp.ryans.factory.codecamp.wargame.data.GameResultFile;
 import jp.ryans.factory.codecamp.wargame.item.Card;
+import jp.ryans.factory.codecamp.wargame.resource.R;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,45 +43,6 @@ public class WarGame {
 	 * 異常終了
 	 */
 	private static final int ABEND = Main.ABEND;
-
-	/**
-	 * エラーメッセージ
-	 */
-	public static final int INTERRRUPT_MESSAGE = 1;
-
-	private static final int ERROR_GAME_DATA_WRITE = 2;
-
-	/**
-	 * 画面出力メッセージ
-	 */
-	private static final int TEXT_TUEN_TITLE = 1;
-	private static final int TEXT_TUEN_FIELD = 2;
-	private static final int TEXT_TUEN_CPU = 3;
-	private static final int TEXT_TUEN_USER = 4;
-
-	private static final int TEXT_TUEN_CPU_DECK = 5;
-	private static final int TEXT_TUEN_YOU_DECK = 6;
-
-	public static final int TEXT_TUEN_WIN = 7;
-	public static final int TEXT_TUEN_LOSS = 8;
-	public static final int TEXT_TUEN_DRAW = 9;
-
-	private static final int TEXT_RESULT_TITLE = 10;
-	private static final int TEXT_RESULT_CPU = 11;
-	private static final int TEXT_RESULT_USER = 12;
-	private static final int TEXT_RESULT_WIN = 13;
-	private static final int TEXT_RESULT_LOSS = 14;
-	private static final int TEXT_RESULT_DRAW = 15;
-
-	public static final int TEXT_START_NEW = 16;
-	public static final int TEXT_START_RENEW = 17;
-
-	public static final int PROMPT_RESTART = 1;
-
-	public static final int PROMPT_INTERRRUPT = 2;
-
-	public static final int  RESTART_MESSAGE = 18;
-
 
 
 
@@ -221,7 +183,7 @@ public class WarGame {
 
 			} catch (IOException e) {
 
-				logger.error(Main.resource.findByErrorsId( ERROR_GAME_DATA_WRITE));
+				logger.error(Main.resource.findByErrorsId( R.ERROR_GAME_DATA_WRITE));
 			}
 			// ゲーム中断
 			return true;
@@ -245,10 +207,10 @@ public class WarGame {
 					result = dataFile.read();
 
 				} catch (IOException e) {
-					System.out.println(Main.resource.findByStringsId(TEXT_START_RENEW));
+					System.out.println(Main.resource.findByStringsId(R.TEXT_START_RENEW));
 				}
 			} else {
-				System.out.println(Main.resource.findByStringsId(TEXT_START_NEW));
+				System.out.println(Main.resource.findByStringsId(R.TEXT_START_NEW));
 			}
 		}
 
@@ -264,31 +226,31 @@ public class WarGame {
 	}
 
 	private void viewDeck(Card cCard, Card yCard) {
-		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_CPU_DECK), cCard));
-		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_YOU_DECK), yCard));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_CPU_DECK), cCard));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_YOU_DECK), yCard));
 	}
 
 	private void viewEnd() {
-		System.out.println(Main.resource.findByStringsId(TEXT_RESULT_TITLE));
-		System.out.println(String.format(Main.resource.findByStringsId(TEXT_RESULT_CPU), data.getCpu().getPost().size()));
-		System.out.println(String.format(Main.resource.findByStringsId(TEXT_RESULT_USER), data.getYou().getPost().size()));
+		System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_TITLE));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_RESULT_CPU), data.getCpu().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_RESULT_USER), data.getYou().getPost().size()));
 
 		int r = data.getYou().getPost().size() - data.getCpu().getPost().size();
 		if (0 == r) {
-			System.out.println(Main.resource.findByStringsId(TEXT_RESULT_DRAW));
+			System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_DRAW));
 		} else if (0 < r) {
-			System.out.println(Main.resource.findByStringsId(TEXT_RESULT_WIN));
+			System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_WIN));
 		} else {
-			System.out.println(Main.resource.findByStringsId(TEXT_RESULT_LOSS));
+			System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_LOSS));
 		}
 
 	}
 
 	private void viewTrun() {
-		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_TITLE), data.getTurn()));
-		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_FIELD), data.getDealer().getPost().size()));
-		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_CPU), data.getCpu().getHand().size(), data.getCpu().getPost().size()));
-		System.out.println(String.format(Main.resource.findByStringsId(TEXT_TUEN_USER), data.getYou().getHand().size(), data.getYou().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_TITLE), data.getTurn()));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_FIELD), data.getDealer().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_CPU), data.getCpu().getHand().size(), data.getCpu().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_USER), data.getYou().getHand().size(), data.getYou().getPost().size()));
 
 	}
 

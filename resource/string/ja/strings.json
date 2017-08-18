@@ -4,7 +4,11 @@
 	"description":"By Ryans Factory",
 	"prompt":[
 	          { "id":1,"text":"中断したゲームを再開しますか? [ %s(Yes)/ %s(No)] >"},
-	          { "id":2,"text":"札を切りますか? (%s:札を切る, %s:中断) >"}
+	          { "id":2,"text":"札を切りますか? (%s:札を切る, %s:中断) >"},
+	          { "id":100,"text":"y"},
+	          { "id":101,"text":"n"},
+	          { "id":102,"text":"d"},
+	          { "id":103,"text":"q"}
 	         ],
 	"strings":[
 	        {"id":1,"text":"### 第 %2d 回戦 ###"},

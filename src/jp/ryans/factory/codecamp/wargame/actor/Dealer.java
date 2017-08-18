@@ -4,11 +4,11 @@
 package jp.ryans.factory.codecamp.wargame.actor;
 
 import jp.ryans.factory.codecamp.wargame.Main;
-import jp.ryans.factory.codecamp.wargame.WarGame;
 import jp.ryans.factory.codecamp.wargame.item.Card;
 import jp.ryans.factory.codecamp.wargame.item.CardRules;
 import jp.ryans.factory.codecamp.wargame.item.Trump;
 import jp.ryans.factory.codecamp.wargame.item.Trump.TrumpType;
+import jp.ryans.factory.codecamp.wargame.resource.R;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,20 +55,20 @@ public class Dealer extends Actor {
 		switch (judgement()) {
 
 		case CardRules.WIN:
-			System.out.println(Main.resource.findByStringsId(WarGame.TEXT_TUEN_WIN));
+			System.out.println(Main.resource.findByStringsId(R.TEXT_TUEN_WIN));
 			you.putPost(this.getPost());
 
 			break;
 
 		case CardRules.LOSS:
-			System.out.println(Main.resource.findByStringsId(WarGame.TEXT_TUEN_LOSS));
+			System.out.println(Main.resource.findByStringsId(R.TEXT_TUEN_LOSS));
 
 			cpu.putPost(this.getPost());
 
 			break;
 
 		case CardRules.DRAW:
-			System.out.println(Main.resource.findByStringsId(WarGame.TEXT_TUEN_DRAW));
+			System.out.println(Main.resource.findByStringsId(R.TEXT_TUEN_DRAW));
 
 			break;
 

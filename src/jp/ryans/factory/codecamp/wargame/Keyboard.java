@@ -5,20 +5,13 @@ package jp.ryans.factory.codecamp.wargame;
 
 import java.util.Scanner;
 
+import jp.ryans.factory.codecamp.wargame.resource.R;
+
 /**
  * @author Ryan
  *
  */
 public class Keyboard {
-	/**
-	 * 入力コマンド
-	 */
-	public static final String INPUT_Y = "y";
-	public static final String INPUT_N = "n";
-	public static final String INPUT_D = "d";
-	public static final String INPUT_Q = "q";
-
-
 	/**
 	 * スキャナー
 	 */
@@ -40,14 +33,14 @@ public class Keyboard {
 
 	public boolean isReStart() {
 		while (true) {
-			System.out.print( String.format(Main.resource.findByPromptId( WarGame.PROMPT_RESTART)  ,INPUT_Y, INPUT_N) );
+			System.out.print( String.format(Main.resource.findByPromptId( R.PROMPT_RESTART)  ,Main.resource.findByPromptId(R.INPUT_Y), Main.resource.findByPromptId(R.INPUT_N)) );
 			String str = scanner.next();
 
-			if (INPUT_Y.equalsIgnoreCase(str)) {
+			if (Main.resource.findByPromptId(R.INPUT_Y).equalsIgnoreCase(str)) {
 				// yが入力されたらゲームの再開
-				System.out.println(Main.resource.findByStringsId(WarGame.RESTART_MESSAGE));
+				System.out.println(Main.resource.findByStringsId(R.RESTART_MESSAGE));
 				return true;
-			} else if (INPUT_N.equalsIgnoreCase(str)) {
+			} else if (Main.resource.findByPromptId(R.INPUT_N).equalsIgnoreCase(str)) {
 				// nが入力されたら新規にゲームを開始
 				return false;
 			}
@@ -56,17 +49,17 @@ public class Keyboard {
 
 	public boolean isInterruption() {
 		while (true) {
-			System.out.print( String.format(Main.resource.findByPromptId( WarGame.PROMPT_INTERRRUPT) ,INPUT_D, INPUT_Q) );
+			System.out.print( String.format(Main.resource.findByPromptId( R.PROMPT_INTERRRUPT) ,Main.resource.findByPromptId(R.INPUT_D), Main.resource.findByPromptId(R.INPUT_Q)) );
 			String str = scanner.next();
 
-			if (INPUT_D.equalsIgnoreCase(str)) {
+			if (Main.resource.findByPromptId(R.INPUT_D).equalsIgnoreCase(str)) {
 				// dが入力されたら札を切る
 				return false;
-			} else if (INPUT_Q.equalsIgnoreCase(str)) {
+			} else if (Main.resource.findByPromptId(R.INPUT_Q).equalsIgnoreCase(str)) {
 				// qが入力されたらゲームを中断
 				return true;
 			}
-			System.out.println( Main.resource.findByErrorsId(WarGame.INTERRRUPT_MESSAGE));
+			System.out.println( Main.resource.findByErrorsId(R.INTERRRUPT_MESSAGE));
 
 		}
 	}
