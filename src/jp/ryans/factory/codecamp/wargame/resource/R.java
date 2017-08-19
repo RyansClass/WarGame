@@ -76,6 +76,7 @@ public final class R {
 
 
 	public static final int  RESTART_MESSAGE = 18;
+	public static final int  TEXT_INTERRRUPT_MESSAGE = 19;
 
 
 }

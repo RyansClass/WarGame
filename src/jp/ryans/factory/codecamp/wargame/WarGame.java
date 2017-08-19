@@ -20,23 +20,6 @@ import org.apache.logging.log4j.Logger;
 public class WarGame {
 
 	/**
-	 * デフォルトOS
-	 */
-	private static final String WINDOWS = GameConst.WINDOWS;
-
-	/**
-	 * 正常終了
-	 */
-	private static final int SUCCESSFUL = GameConst.SUCCESSFUL;
-
-	/**
-	 * 異常終了
-	 */
-	private static final int ABEND = GameConst.ABEND;
-
-
-
-	/**
 	 * ログ出力
 	 */
 	private Logger logger = LogManager.getLogger(this.getClass());
@@ -64,8 +47,8 @@ public class WarGame {
 	/**
 	 * コンストラクタ
 	 */
-	public WarGame() {
-		this.os = WINDOWS;
+	protected WarGame() {
+		this.os = GameConst.WINDOWS;
 	}
 
 	/**
@@ -103,7 +86,7 @@ public class WarGame {
 	 */
 	public int run() {
 
-		int result = SUCCESSFUL;
+		int result = GameConst.SUCCESSFUL;
 		Keyboard keyin = new Keyboard();
 
 		try {
@@ -118,6 +101,7 @@ public class WarGame {
 				//
 				if (isInterruption(keyin)) {
 					// ゲーム中断
+					System.out.println(Main.resource.findByStringsId(R.TEXT_INTERRRUPT_MESSAGE));
 					return result;
 				}
 				// カードを出す
@@ -142,7 +126,7 @@ public class WarGame {
 
 		} catch (Exception e) {
 			logger.error(e.toString());
-			result = ABEND;
+			result = GameConst.ABEND;
 
 		} finally {
 			keyin.close();
@@ -152,6 +136,9 @@ public class WarGame {
 
 	}
 
+	/**
+	 * カードを配る
+	 */
 	private void dealCards() {
 		while (!data.getDealer().isHandEmpty()) {
 
@@ -161,6 +148,11 @@ public class WarGame {
 		}
 	}
 
+	/**
+	 * 手札を切るか中断か検査
+	 * @param keyin
+	 * @return
+	 */
 	private boolean isInterruption(Keyboard keyin) {
 
 		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(Main.resource,this.interruptionFilename);
@@ -182,6 +174,11 @@ public class WarGame {
 		return false;
 	}
 
+	/**
+	 * ゲームをリスタートするか検査
+	 * @param keyin
+	 * @return
+	 */
 	private GameData reStart(Keyboard keyin) {
 
 		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(Main.resource,this.interruptionFilename);
@@ -215,11 +212,19 @@ public class WarGame {
 		return result;
 	}
 
+	/**
+	 * デッキの表示
+	 * @param cCard
+	 * @param yCard
+	 */
 	private void viewDeck(Card cCard, Card yCard) {
 		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_CPU_DECK), cCard));
 		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_YOU_DECK), yCard));
 	}
 
+	/**
+	 * ゲームの終了表示
+	 */
 	private void viewEnd() {
 		System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_TITLE));
 		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_RESULT_CPU), data.getCpu().getPost().size()));
@@ -236,7 +241,11 @@ public class WarGame {
 
 	}
 
+	/**
+	 * ゲームのターン表示
+	 */
 	private void viewTrun() {
+		System.out.println("");
 		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_TITLE), data.getTurn()));
 		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_FIELD), data.getDealer().getPost().size()));
 		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_CPU), data.getCpu().getHand().size(), data.getCpu().getPost().size()));
@@ -244,23 +253,22 @@ public class WarGame {
 
 	}
 
+	/**
+	 * ゲームの結果保存
+	 */
 	private void writeGameResult() {
-
-		String charSet;
-
-		if (os.startsWith(WINDOWS)) {
-
-			charSet = GameConst.CHAR_WINDOWS;
-
-		} else {
-
-			charSet = GameConst.CHAR_UTF;
-
-		}
 
 		GameResultFile result = new GameResultFile(this.gameResultFilename);
 
-		result.setCharset(charSet);
+		if (os.startsWith(GameConst.WINDOWS)) {
+
+			result.setCharset(GameConst.CHAR_WINDOWS);
+
+		} else {
+
+			result.setCharset(GameConst.CHAR_UTF);
+
+		}
 
 		result.readAll();
 
