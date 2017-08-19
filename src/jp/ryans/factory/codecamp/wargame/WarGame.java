@@ -163,7 +163,7 @@ public class WarGame {
 
 	private boolean isInterruption(Keyboard keyin) {
 
-		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(Main.resource,this.gameResultFilename);
+		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(Main.resource,this.interruptionFilename);
 
 		if (keyin.isInterruption()) {
 
@@ -184,7 +184,7 @@ public class WarGame {
 
 	private GameData reStart(Keyboard keyin) {
 
-		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(Main.resource,this.gameResultFilename);
+		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(Main.resource,this.interruptionFilename);
 
 		GameData result = null;
 
@@ -258,7 +258,7 @@ public class WarGame {
 
 		}
 
-		GameResultFile result = new GameResultFile(this.interruptionFilename);
+		GameResultFile result = new GameResultFile(this.gameResultFilename);
 
 		result.setCharset(charSet);
 
