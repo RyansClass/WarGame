@@ -54,19 +54,23 @@ public final class R {
 	 */
 	public static final int TEXT_TUEN_TITLE = 1;
 	public static final int TEXT_TUEN_FIELD = 2;
+
+	public static final int TEXT_TUEN_PLAYER = 3;
+
+	
 	public static final int TEXT_TUEN_CPU = 3;
 	public static final int TEXT_TUEN_USER = 4;
 
-	public static final int TEXT_TUEN_CPU_DECK = 5;
-	public static final int TEXT_TUEN_YOU_DECK = 6;
+	public static final int TEXT_TUEN_DECK = 5;
 
-	public static final int TEXT_TUEN_WIN = 7;
-	public static final int TEXT_TUEN_LOSS = 8;
+	public static final int TEXT_TUEN_JUDG = 7;
+
 	public static final int TEXT_TUEN_DRAW = 9;
 
 	public static final int TEXT_RESULT_TITLE = 10;
 	public static final int TEXT_RESULT_CPU = 11;
 	public static final int TEXT_RESULT_USER = 12;
+	
 	public static final int TEXT_RESULT_WIN = 13;
 	public static final int TEXT_RESULT_LOSS = 14;
 	public static final int TEXT_RESULT_DRAW = 15;

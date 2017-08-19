@@ -9,6 +9,7 @@ import jp.ryans.factory.codecamp.wargame.data.FileSerialize;
 import jp.ryans.factory.codecamp.wargame.data.GameData;
 import jp.ryans.factory.codecamp.wargame.data.GameResultFile;
 import jp.ryans.factory.codecamp.wargame.item.Card;
+import jp.ryans.factory.codecamp.wargame.item.CardRules;
 import jp.ryans.factory.codecamp.wargame.resource.R;
 
 import org.apache.logging.log4j.LogManager;
@@ -115,7 +116,7 @@ public class WarGame {
 				// ディーラーへあなたのカードを渡す
 				data.getDealer().setHandCard(data.getYou(),yCard);
 				// カードの判定
-				data.getDealer().judgement(data.getCpu(), data.getYou());
+				viewJudgement( data.getDealer().judgement(data.getCpu(), data.getYou()) );
 				// 次のターン
 				data.incrementTurn();
 				// ゲームの終了判定 手持ちのカードをプレイヤーは持っている場合は繰り返す
@@ -136,6 +137,7 @@ public class WarGame {
 		return result;
 
 	}
+
 
 	/**
 	 * カードを配る
@@ -224,8 +226,8 @@ public class WarGame {
 	 * @param yCard
 	 */
 	private void viewDeck(Card cCard, Card yCard) {
-		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_CPU_DECK), cCard));
-		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_YOU_DECK), yCard));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_DECK), data.getCpu().getName(),cCard));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_DECK), data.getYou().getName(),yCard));
 	}
 
 	/**
@@ -260,10 +262,40 @@ public class WarGame {
 		System.out.println("");
 		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_TITLE), data.getTurn()));
 		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_FIELD), data.getDealer().getPost().size()));
-		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_CPU), data.getCpu().getHand().size(), data.getCpu().getPost().size()));
-		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_USER), data.getYou().getHand().size(), data.getYou().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_PLAYER), data.getCpu().getName(),data.getCpu().getHand().size(), data.getCpu().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_PLAYER), data.getYou().getName(),data.getYou().getHand().size(), data.getYou().getPost().size()));
 
 	}
+	
+	/**
+	 * ゲームのターン結果表示
+	 * @param judgement
+	 */
+	private void viewJudgement(int judgement) {
+		switch (judgement ) {
+
+		case CardRules.WIN:
+			
+			System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_JUDG),data.getYou().getName()));
+
+			break;
+
+		case CardRules.LOSS:
+			
+			System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_TUEN_JUDG),data.getCpu().getName()));
+
+			break;
+
+		case CardRules.DRAW:
+			
+			System.out.println(Main.resource.findByStringsId(R.TEXT_TUEN_DRAW));
+
+			break;
+
+		}
+		
+	}
+
 
 	/**
 	 * ゲームの結果保存

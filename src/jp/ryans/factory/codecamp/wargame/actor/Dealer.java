@@ -5,26 +5,16 @@ package jp.ryans.factory.codecamp.wargame.actor;
 
 import java.util.HashMap;
 
-import jp.ryans.factory.codecamp.wargame.Main;
 import jp.ryans.factory.codecamp.wargame.item.Card;
 import jp.ryans.factory.codecamp.wargame.item.CardRules;
 import jp.ryans.factory.codecamp.wargame.item.Trump;
 import jp.ryans.factory.codecamp.wargame.item.Trump.TrumpType;
-import jp.ryans.factory.codecamp.wargame.resource.R;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * ディーラークラス
  */
 public final class Dealer extends Actor {
 
-	/**
-	 * ログ出力
-	 */
-	private Logger logger = LogManager.getLogger(this.getClass());
-	
 	/**
 	 * 判定用のカードを格納する
 	 */
@@ -56,7 +46,7 @@ public final class Dealer extends Actor {
 	 * @param cpu
 	 * @param you
 	 */
-	public void judgement(Player cpu, Player you){
+	public int judgement(Player cpu, Player you){
 		
 		Card c = this.deck.get(cpu.getName());
 		
@@ -66,11 +56,10 @@ public final class Dealer extends Actor {
 		
 		this.getPost().add(y);
 
-		switch ( y.compareTo(c) ) {
+		int result =  y.compareTo(c);
+		switch (result ) {
 
 		case CardRules.WIN:
-			
-			System.out.println(Main.resource.findByStringsId(R.TEXT_TUEN_WIN));
 			
 			you.putPost(this.getPost());
 
@@ -78,19 +67,17 @@ public final class Dealer extends Actor {
 
 		case CardRules.LOSS:
 			
-			System.out.println(Main.resource.findByStringsId(R.TEXT_TUEN_LOSS));
-
 			cpu.putPost(this.getPost());
 
 			break;
 
 		case CardRules.DRAW:
 			
-			System.out.println(Main.resource.findByStringsId(R.TEXT_TUEN_DRAW));
-
 			break;
 
 		}
+		
+		return result;
 	}
 
 	@Override
