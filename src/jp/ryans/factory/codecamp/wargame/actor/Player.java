@@ -10,9 +10,12 @@ import jp.ryans.factory.codecamp.wargame.item.Trump;
  *
  */
 public class Player extends Actor {
+	
+	
+	private String name;
 
 	/**
-	 *
+	 * コンストラクタ
 	 */
 	public Player() {
 		super();
@@ -27,5 +30,22 @@ public class Player extends Actor {
 		// 元を削除する
 		trmp.clear();
 	}
+
+	/**
+	 * プレイヤーの名前取得
+	 * @return name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * プレイヤーの名前を設定
+	 * @param name 
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 }

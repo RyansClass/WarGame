@@ -21,7 +21,7 @@ public abstract class Actor implements Serializable {
 	protected Trump post;
 
 	/**
-	 *
+	 * コンストラクタ
 	 */
 	public Actor() {
 
@@ -41,9 +41,13 @@ public abstract class Actor implements Serializable {
 		return this.post;
 	}
 
-
+	/**
+	 * 手札を追加
+	 * @param handCard
+	 */
 	public void setHandCard(Card card) {
 		this.hand.add(card);
+		
 	}
 
 	public void setPostCard(Card card) {

@@ -3,6 +3,8 @@
  */
 package jp.ryans.factory.codecamp.wargame.actor;
 
+import java.util.HashMap;
+
 import jp.ryans.factory.codecamp.wargame.Main;
 import jp.ryans.factory.codecamp.wargame.item.Card;
 import jp.ryans.factory.codecamp.wargame.item.CardRules;
@@ -14,53 +16,68 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * @author Ryan
- *
+ * ディーラークラス
  */
-public class Dealer extends Actor {
+public final class Dealer extends Actor {
 
 	/**
 	 * ログ出力
 	 */
 	private Logger logger = LogManager.getLogger(this.getClass());
-
+	
 	/**
-	 *
+	 * 判定用のカードを格納する
+	 */
+	private HashMap<String,Card> deck;
+	
+	/**
+	 * コンストラクタ
 	 */
 	public Dealer() {
+		
 		super();
+		
 		this.hand = new Trump(TrumpType.HAND);
+		
 		this.post = new Trump(TrumpType.POST);
+		
+		this.deck = new HashMap<String,Card>();
 
 		this.hand.shuffle();
 	}
 
-	@Override
-	public void putPost(Trump trmp) {
-		// 何もしない
-		;
+	public void setHandCard(Player player, Card card) {
+		
+		this.deck.put(player.getName(), card);
 	}
-
-	public int judgement() {
-		Card c = this.getHandCard();
-		Card y = this.getHandCard();
-		logger.trace("CPU={} USER={} 判定={}",c,y,y.compareTo(c));
-		this.getPost().add(c);
-		this.getPost().add(y);
-		return y.compareTo(c);
-	}
-
+	
+	/**
+	 * プレイヤーの手札を判定する
+	 * @param cpu
+	 * @param you
+	 */
 	public void judgement(Player cpu, Player you){
+		
+		Card c = this.deck.get(cpu.getName());
+		
+		Card y = this.deck.get(you.getName());
+		
+		this.getPost().add(c);
+		
+		this.getPost().add(y);
 
-		switch (judgement()) {
+		switch ( y.compareTo(c) ) {
 
 		case CardRules.WIN:
+			
 			System.out.println(Main.resource.findByStringsId(R.TEXT_TUEN_WIN));
+			
 			you.putPost(this.getPost());
 
 			break;
 
 		case CardRules.LOSS:
+			
 			System.out.println(Main.resource.findByStringsId(R.TEXT_TUEN_LOSS));
 
 			cpu.putPost(this.getPost());
@@ -68,11 +85,18 @@ public class Dealer extends Actor {
 			break;
 
 		case CardRules.DRAW:
+			
 			System.out.println(Main.resource.findByStringsId(R.TEXT_TUEN_DRAW));
 
 			break;
 
 		}
+	}
+
+	@Override
+	public void putPost(Trump trmp) {
+		// 何もしない
+		;
 	}
 
 

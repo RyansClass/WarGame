@@ -110,9 +110,9 @@ public class WarGame {
 				// デッキの表示
 				viewDeck(cCard, yCard);
 				// ディーラーへCPUのカードを渡す
-				data.getDealer().setHandCard(cCard);
+				data.getDealer().setHandCard(data.getCpu(),cCard);
 				// ディーラーへあなたのカードを渡す
-				data.getDealer().setHandCard(yCard);
+				data.getDealer().setHandCard(data.getYou(),yCard);
 				// カードの判定
 				data.getDealer().judgement(data.getCpu(), data.getYou());
 				// 次のターン
@@ -140,6 +140,7 @@ public class WarGame {
 	 * カードを配る
 	 */
 	private void dealCards() {
+		
 		while (!data.getDealer().isHandEmpty()) {
 
 			data.getCpu().setHandCard(data.getDealer().getHandCard());

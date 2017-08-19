@@ -5,6 +5,7 @@ package jp.ryans.factory.codecamp.wargame.data;
 
 import java.io.Serializable;
 
+import jp.ryans.factory.codecamp.wargame.GameConst;
 import jp.ryans.factory.codecamp.wargame.actor.Dealer;
 import jp.ryans.factory.codecamp.wargame.actor.Player;
 
@@ -26,10 +27,17 @@ public class GameData  implements Serializable {
 	 *
 	 */
 	public GameData() {
+		
 		dealer = new Dealer();
+		
 		cpu = new Player();
+		
 		you = new Player();
 
+		cpu.setName(GameConst.CPU);
+		
+		you.setName(GameConst.YOU);
+		
 		turn = 1;
 	}
 

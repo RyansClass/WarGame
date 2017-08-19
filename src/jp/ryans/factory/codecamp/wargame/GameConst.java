@@ -49,6 +49,11 @@ public class GameConst {
 	 * MacもしくはLinuxの文字コード
 	 */
 	public static final String CHAR_UTF = "UTF-8";
+	
+	
+	public static final String CPU = "CPU";
+	
+	public static final String YOU = "あなた";
 
 
 }
