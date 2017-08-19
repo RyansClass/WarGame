@@ -2,7 +2,11 @@ package jp.ryans.factory.codecamp.wargame.item;
 
 /**
  * カードマーク
+ * 国際化対応につき使用不可
+ * ビルドから除外する
+ * @deprecated
  */
+
 public enum CardMark {
 
 	Clubs("クラブ", 0), Diamond("ダイヤ", 1), Heart("ハート", 2), Spade("スペード", 3);

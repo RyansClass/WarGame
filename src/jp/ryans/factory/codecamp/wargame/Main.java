@@ -72,7 +72,7 @@ public class Main {
 			// 言語指定
 			resource = Strings.getInstance(args[0]);
 		}
-
+		
 		String os = GameConst.WINDOWS;
 
 		try{

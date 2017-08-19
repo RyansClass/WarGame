@@ -4,8 +4,7 @@
 package jp.ryans.factory.codecamp.wargame;
 
 /**
- * @author Ryan
- *
+ * ゲーム定数クラス
  */
 public class GameConst {
 
@@ -50,10 +49,5 @@ public class GameConst {
 	 */
 	public static final String CHAR_UTF = "UTF-8";
 	
-	
-	public static final String CPU = "CPU";
-	
-	public static final String YOU = "あなた";
-
 
 }

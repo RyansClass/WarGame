@@ -74,9 +74,9 @@ public class WarGame {
 	 * ゲームの中断データのファイルパスの設定
 	 * @param interruptionFilepath ファイルパス
 	 */
-	public void setInterruptionFilename(String interruptionFilepath) {
+	public void setInterruptionFilename(String filepath) {
 
-		this.interruptionFilename = interruptionFilepath;
+		this.interruptionFilename = filepath;
 
 	}
 
@@ -87,6 +87,7 @@ public class WarGame {
 	public int run() {
 
 		int result = GameConst.SUCCESSFUL;
+		
 		Keyboard keyin = new Keyboard();
 
 		try {
@@ -195,10 +196,14 @@ public class WarGame {
 					result = dataFile.read();
 
 				} catch (IOException e) {
+					
 					System.out.println(Main.resource.findByStringsId(R.TEXT_START_RENEW));
 				}
+				
 			} else {
+				
 				System.out.println(Main.resource.findByStringsId(R.TEXT_START_NEW));
+				
 			}
 		}
 
@@ -232,14 +237,20 @@ public class WarGame {
 		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_RESULT_USER), data.getYou().getPost().size()));
 
 		int r = data.getYou().getPost().size() - data.getCpu().getPost().size();
+		
 		if (0 == r) {
+			
 			System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_DRAW));
+			
 		} else if (0 < r) {
+			
 			System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_WIN));
+			
 		} else {
+			
 			System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_LOSS));
+			
 		}
-
 	}
 
 	/**

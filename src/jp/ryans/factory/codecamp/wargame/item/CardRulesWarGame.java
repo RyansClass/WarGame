@@ -35,7 +35,7 @@ public class CardRulesWarGame implements CardRules {
 	@Override
 	public boolean equals(Card card1, Card card2) {
 		if (card1.getNumber() == card2.getNumber() &&
-				card1.getMark().getMarkName().equals(card2.getMark().getMarkName())) {
+				card1.getMark().equals(card2.getMark())) {
 			return true;
 		}
 		return false;

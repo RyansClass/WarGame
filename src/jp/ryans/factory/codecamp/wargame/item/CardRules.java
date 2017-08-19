@@ -3,7 +3,6 @@
  */
 package jp.ryans.factory.codecamp.wargame.item;
 
-
 /**
  * カードの勝敗や制約に関するインターフェイス
  *
@@ -13,9 +12,18 @@ package jp.ryans.factory.codecamp.wargame.item;
 public interface CardRules {
 
 	/**
+	 * カードマーク
+	 * 国際化対応
+	 */
+	public enum CardMark {
+		Clubs, Diamond, Heart, Spade
+	}
+
+	/**
 	 * カード番号の最小値
 	 */
 	public static final int MIN_NUMBER = 1;
+
 	/**
 	 * カード番号の最大値
 	 */
@@ -34,12 +42,13 @@ public interface CardRules {
 	/**
 	 * 絵札　ジャック
 	 */
-	public static final String JACK= " J";
+	public static final String JACK = " J";
 
 	/**
 	 * 番号　ジャック
 	 */
 	public static final int JACK_NUMBER = 11;
+
 	/**
 	 * 絵札　クィーン
 	 */
@@ -49,19 +58,30 @@ public interface CardRules {
 	 * 番号　クィーン
 	 */
 	public static final int QUEEN_NUMBER = 12;
+
 	/**
 	 * 絵札　キング
 	 */
 	public static final String KING = " K";
+
 	/**
 	 * 番号　キング
 	 */
 	public static final int KING_NUMBER = 13;
 
+	/**
+	 * 勝利
+	 */
 	public static final int WIN = 1;
 
+	/**
+	 * 負け
+	 */
 	public static final int LOSS = -1;
 
+	/**
+	 * 引き分け
+	 */
 	public static final int DRAW = 0;
 
 	/**
@@ -70,7 +90,7 @@ public interface CardRules {
 	 * @param card2
 	 * @return 0:等しい -1:小さい 1:大きい
 	 */
-	public int compareTo(Card card1,Card card2);
+	public int compareTo(Card card1, Card card2);
 
 	/**
 	 * カードが等しいか検査する
@@ -78,7 +98,6 @@ public interface CardRules {
 	 * @param card2
 	 * @return true:等しい false:等しくない
 	 */
-	public boolean equals(Card card1,Card card2);
-
+	public boolean equals(Card card1, Card card2);
 
 }

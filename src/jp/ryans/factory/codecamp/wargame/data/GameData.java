@@ -5,15 +5,16 @@ package jp.ryans.factory.codecamp.wargame.data;
 
 import java.io.Serializable;
 
-import jp.ryans.factory.codecamp.wargame.GameConst;
+import jp.ryans.factory.codecamp.wargame.Main;
 import jp.ryans.factory.codecamp.wargame.actor.Dealer;
 import jp.ryans.factory.codecamp.wargame.actor.Player;
+import jp.ryans.factory.codecamp.wargame.resource.R;
 
 /**
  * @author Ryan
  *
  */
-public class GameData  implements Serializable {
+public class GameData implements Serializable {
 
 	private Dealer dealer;
 
@@ -27,20 +28,19 @@ public class GameData  implements Serializable {
 	 *
 	 */
 	public GameData() {
-		
+
 		dealer = new Dealer();
-		
+
 		cpu = new Player();
-		
+
 		you = new Player();
 
-		cpu.setName(GameConst.CPU);
-		
-		you.setName(GameConst.YOU);
-		
+		cpu.setName(Main.resource.findByStringsId(R.CPUNAME));
+
+		you.setName(Main.resource.findByStringsId(R.YOUNAME));
+
 		turn = 1;
 	}
-
 
 	/**
 	 * @return dealer
@@ -49,14 +49,12 @@ public class GameData  implements Serializable {
 		return dealer;
 	}
 
-
 	/**
 	 * @return cpu
 	 */
 	public Player getCpu() {
 		return cpu;
 	}
-
 
 	/**
 	 * @return you

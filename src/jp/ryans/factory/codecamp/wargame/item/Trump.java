@@ -38,17 +38,23 @@ public class Trump extends ArrayList<Card> {
 	 * @param type 手札もしくは獲得カード
 	 */
 	public Trump(TrumpType type) {
+		
 		super();
+		
 		// 初期化する
 		this.clear();
+		
 		switch (type) {
+		
 		case HAND:
 			// ダイヤ
-			this.addAll(Card.getNewInstance(CardMark.Diamond));
+			this.addAll(Card.getNewInstance(CardRules.CardMark.Diamond));
 			// スペード
-			this.addAll(Card.getNewInstance(CardMark.Spade));
+			this.addAll(Card.getNewInstance(CardRules.CardMark.Spade));
 			break;
+			
 		case POST:
+			
 			break;
 		}
 	}
@@ -57,7 +63,9 @@ public class Trump extends ArrayList<Card> {
 	 * トランプをシャッフルする
 	 */
 	public void shuffle() {
+		
 		Collections.shuffle(this);
+		
 		logger.trace("トランプをシャッフル");
 	}
 
@@ -66,12 +74,19 @@ public class Trump extends ArrayList<Card> {
 	 * @return カード
 	 */
 	public Card getCard() {
+		
 		if (this.isEmpty()) {
+			
 			logger.trace("カードがない");
+			
 			return null;
+			
 		}
+		
 		Card c =this.remove(0);
+		
 		logger.trace("カードを取り出した [{}]" , c);
+		
 		return c;
 	}
 

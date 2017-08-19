@@ -78,5 +78,17 @@ public final class R {
 	public static final int  RESTART_MESSAGE = 18;
 	public static final int  TEXT_INTERRRUPT_MESSAGE = 19;
 
+	public static final int CPUNAME = 23;
+
+	public static final int YOUNAME = 24;
+
+	public static final int CLUBS = 25;
+
+	public static final int DIAMOND = 26;
+
+	public static final int HEART = 27;
+
+	public static final int SPADE = 28;
+
 
 }
