@@ -15,36 +15,6 @@ import jp.ryans.factory.codecamp.wargame.resource.Strings;
  */
 public class Main {
 
-	/**
-	 * デフォルトOS
-	 */
-	public static final String WINDOWS = "windows";
-
-	/**
-	 * 正常終了
-	 */
-	public static final int SUCCESSFUL = 0;
-
-	/**
-	 * 異常終了
-	 */
-	public static final int ABEND = 1;
-
-	/**
-	 * OS名の環境変数名
-	 */
-	private static final String ENV_OS = "os.name";
-
-	/**
-	 * ゲームの結果保存ファイル名
-	 */
-	private static final String GAMEDATA_FILEPATH = "game_result.csv";
-
-	/**
-	 * ゲームの中断データ保存ファイル名
-	 */
-	private static final String INTERRUPTION_FILEPATH = "wargame.dat";
-
 
 	/**
 	 * 国際化対応リソース
@@ -67,23 +37,23 @@ public class Main {
 			resource = Strings.getInstance(args[0]);
 		}
 
-		String os = WINDOWS;
+		String os = GameConst.WINDOWS;
 
 		try{
 			// 環境変数からOSの名前を取得する
-			os = System.getProperty(ENV_OS).toLowerCase();
+			os = System.getProperty(GameConst.ENV_OS).toLowerCase();
 
 		} catch(SecurityException e) {
 			// セキュリティー違反
-			System.exit(ABEND);
+			System.exit(GameConst.ABEND);
 
 		}
 		// ゲームクラスを生成する
 		WarGame game = new WarGame(os);
 		// ゲームの結果保存ファイルを設定する
-		game.setGameResultFilename(GAMEDATA_FILEPATH);
+		game.setGameResultFilename(GameConst.GAMEDATA_FILEPATH);
 		// ゲームの中断データ保存ファイルを設定する
-		game.setInterruptionFilename(INTERRUPTION_FILEPATH);
+		game.setInterruptionFilename(GameConst.INTERRUPTION_FILEPATH);
 		// ゲームの実行
 		int status = game.run();
 		// プログラム終了

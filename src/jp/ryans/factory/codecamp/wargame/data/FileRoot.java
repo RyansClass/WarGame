@@ -2,6 +2,8 @@ package jp.ryans.factory.codecamp.wargame.data;
 
 import java.io.File;
 
+import jp.ryans.factory.codecamp.wargame.resource.Strings;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,41 +13,36 @@ import org.apache.logging.log4j.Logger;
  */
 public class FileRoot {
 
-	public static final String FILE_ERROR_NOT_FOUND_FILE = "ファイルが見つかりません。";
-
-	public static final String FILE_ERROR_NOT_OPEN = "ファイルを開くことができません。";
-
-	public static final String FILE_ERROR_CLASS_LAOD = "クラスを復元できません。";
-
-	public static final String FILE_ERROR_CLASS_SAVE = "クラスを保存できません。";
-
-	public static final String FILE_ERROR_READ = "ファイルの読み込みに失敗しました。";
-
-	public static final String FILE_ERROR_WRITE = "ファイルの書き込みに失敗しました。";
-
-	public static final String FILE_ERROR_CLOSE = "ファイルを閉じることができません。";
-
-
 	/**
 	 * ログ出力
 	 */
 	protected Logger logger = LogManager.getLogger(this.getClass());
 
-	protected String filename = "";
+	/**
+	 * ファイルパス
+	 */
+	protected String filename;
+
+	/**
+	 * 国際化対応リソース
+	 */
+	protected Strings resource;
 
 	/**
 	 * コンストラクタ　使用不可
 	 */
 	@SuppressWarnings("unused")
 	private FileRoot() {
+
 	}
 
 	/**
 	 * コンストラクタ
-	 * @param filename
+	 * @param r 国際化対応リソース
+	 * @param filename ファイルパス
 	 */
-	public FileRoot(String filename) {
-
+	public FileRoot(Strings r,String filename) {
+		this.resource = r;
 		this.filename = filename;
 	}
 

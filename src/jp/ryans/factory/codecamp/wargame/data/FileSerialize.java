@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import jp.ryans.factory.codecamp.wargame.resource.R;
+import jp.ryans.factory.codecamp.wargame.resource.Strings;
+
 /**
  *
  */
@@ -19,8 +22,8 @@ public class FileSerialize<T> extends FileRoot {
 	 * コンストラクタ
 	 * @param filename ファイル名
 	 */
-	public FileSerialize(String filename) {
-		super(filename);
+	public FileSerialize(Strings r,String filename) {
+		super(r,filename);
 	}
 
 	/**
@@ -41,13 +44,13 @@ public class FileSerialize<T> extends FileRoot {
 
 		} catch (FileNotFoundException e) {
 
-			logger.error(FILE_ERROR_NOT_FOUND_FILE + "file={}", filename);
+			logger.error(resource.findByErrorsId(R.FILE_ERROR_NOT_FOUND_FILE) + "file={}", filename);
 
 			throw new IOException(e);
 
 		} catch (IOException e) {
 
-			logger.error(FILE_ERROR_NOT_OPEN + "file={}", filename);
+			logger.error(resource.findByErrorsId(R.FILE_ERROR_NOT_OPEN) + "file={}", filename);
 
 			throw e;
 		}
@@ -57,7 +60,7 @@ public class FileSerialize<T> extends FileRoot {
 
 		} catch (ClassNotFoundException e) {
 
-			logger.error(FILE_ERROR_CLASS_LAOD + " {}", e.getMessage());
+			logger.error(resource.findByErrorsId(R.FILE_ERROR_CLASS_LAOD) + " {}", e.getMessage());
 
 			throw new IOException(e);
 
@@ -73,7 +76,7 @@ public class FileSerialize<T> extends FileRoot {
 
 			} catch (IOException e) {
 
-				logger.error(FILE_ERROR_CLOSE + "file={}", filename);
+				logger.error(resource.findByErrorsId(R.FILE_ERROR_CLOSE) + "file={}", filename);
 			}
 		}
 
@@ -95,13 +98,13 @@ public class FileSerialize<T> extends FileRoot {
 
 		} catch (FileNotFoundException e) {
 
-			logger.error(FILE_ERROR_NOT_FOUND_FILE + "file={}", filename);
+			logger.error(resource.findByErrorsId(R.FILE_ERROR_NOT_FOUND_FILE) + "file={}", filename);
 
 			throw new IOException(e);
 
 		} catch (IOException e) {
 
-			logger.error(FILE_ERROR_NOT_OPEN + "file={}", filename);
+			logger.error(resource.findByErrorsId(R.FILE_ERROR_NOT_OPEN) + "file={}", filename);
 
 			throw e;
 		}
@@ -112,7 +115,7 @@ public class FileSerialize<T> extends FileRoot {
 
 		} catch (IOException e) {
 
-			logger.error(FILE_ERROR_CLASS_SAVE + " {}", e.getMessage());
+			logger.error(resource.findByErrorsId(R.FILE_ERROR_CLASS_SAVE) + " {}", e.getMessage());
 
 			throw e;
 
@@ -124,7 +127,7 @@ public class FileSerialize<T> extends FileRoot {
 
 			} catch (IOException e) {
 
-				logger.error(FILE_ERROR_CLOSE + "file={}", filename);
+				logger.error(resource.findByErrorsId(R.FILE_ERROR_CLOSE) + "file={}", filename);
 			}
 		}
 	}

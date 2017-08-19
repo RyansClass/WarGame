@@ -22,27 +22,17 @@ public class WarGame {
 	/**
 	 * デフォルトOS
 	 */
-	private static final String WINDOWS = Main.WINDOWS;
-
-	/**
-	 * Windowsの文字コード
-	 */
-	private static final String CHAR_WINDOWS = "Windows-31j";
-
-	/**
-	 * MacもしくはLinuxの文字コード
-	 */
-	private static final String CHAR_UTF = "UTF-8";
+	private static final String WINDOWS = GameConst.WINDOWS;
 
 	/**
 	 * 正常終了
 	 */
-	private static final int SUCCESSFUL = Main.SUCCESSFUL;
+	private static final int SUCCESSFUL = GameConst.SUCCESSFUL;
 
 	/**
 	 * 異常終了
 	 */
-	private static final int ABEND = Main.ABEND;
+	private static final int ABEND = GameConst.ABEND;
 
 
 
@@ -173,7 +163,7 @@ public class WarGame {
 
 	private boolean isInterruption(Keyboard keyin) {
 
-		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(this.gameResultFilename);
+		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(Main.resource,this.gameResultFilename);
 
 		if (keyin.isInterruption()) {
 
@@ -194,7 +184,7 @@ public class WarGame {
 
 	private GameData reStart(Keyboard keyin) {
 
-		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(this.gameResultFilename);
+		FileSerialize<GameData> dataFile = new FileSerialize<GameData>(Main.resource,this.gameResultFilename);
 
 		GameData result = null;
 
@@ -260,11 +250,11 @@ public class WarGame {
 
 		if (os.startsWith(WINDOWS)) {
 
-			charSet = CHAR_WINDOWS;
+			charSet = GameConst.CHAR_WINDOWS;
 
 		} else {
 
-			charSet = CHAR_UTF;
+			charSet = GameConst.CHAR_UTF;
 
 		}
 

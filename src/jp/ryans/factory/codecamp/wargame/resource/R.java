@@ -17,6 +17,23 @@ public final class R {
 
 	public static final int ERROR_GAME_DATA_WRITE = 2;
 
+	public static final int SECURITYEXCEPTION = 3;
+
+	public static final int FILE_ERROR_NOT_FOUND_FILE = 1000;
+
+	public static final int FILE_ERROR_NOT_OPEN = 1001;
+
+	public static final int FILE_ERROR_READ = 1002;
+
+	public static final int FILE_ERROR_WRITE = 1003;
+
+	public static final int FILE_ERROR_CLOSE = 1004;
+
+	public static final int FILE_ERROR_CLASS_LAOD = 1005;
+
+	public static final int FILE_ERROR_CLASS_SAVE = 1006;
+
+
 	/**
 	 * プロンプト　メッセージ
 	 */
@@ -31,9 +48,6 @@ public final class R {
 	public static final int INPUT_N = 101;
 	public static final int INPUT_D = 102;
 	public static final int INPUT_Q = 103;
-
-
-
 
 	/**
 	 * 画面出力メッセージ
