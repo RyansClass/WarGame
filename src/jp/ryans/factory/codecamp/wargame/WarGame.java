@@ -213,7 +213,7 @@ public class WarGame {
 
 		if (null == result) {
 
-			result = new GameData();
+			result = new GameData(Main.resource.findByStringsId(R.CPUNAME),Main.resource.findByStringsId(R.YOUNAME));
 
 		}
 
@@ -234,9 +234,10 @@ public class WarGame {
 	 * ゲームの終了表示
 	 */
 	private void viewEnd() {
+		System.out.println("");
 		System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_TITLE));
-		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_RESULT_CPU), data.getCpu().getPost().size()));
-		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_RESULT_USER), data.getYou().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_RESULT_PLAYER), data.getCpu().getName(),data.getCpu().getPost().size()));
+		System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_RESULT_PLAYER), data.getYou().getName(),data.getYou().getPost().size()));
 
 		int r = data.getYou().getPost().size() - data.getCpu().getPost().size();
 		
@@ -246,11 +247,11 @@ public class WarGame {
 			
 		} else if (0 < r) {
 			
-			System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_WIN));
+			System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_RESULT_WIN), data.getYou().getName()));
 			
 		} else {
 			
-			System.out.println(Main.resource.findByStringsId(R.TEXT_RESULT_LOSS));
+			System.out.println(String.format(Main.resource.findByStringsId(R.TEXT_RESULT_LOSS), data.getYou().getName()));
 			
 		}
 	}
