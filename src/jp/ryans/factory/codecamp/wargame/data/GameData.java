@@ -5,29 +5,42 @@ package jp.ryans.factory.codecamp.wargame.data;
 
 import java.io.Serializable;
 
-import jp.ryans.factory.codecamp.wargame.Main;
 import jp.ryans.factory.codecamp.wargame.actor.Dealer;
 import jp.ryans.factory.codecamp.wargame.actor.Player;
-import jp.ryans.factory.codecamp.wargame.resource.R;
 
 /**
- * @author Ryan
+ * ゲームデータクラス
  *
  */
 public class GameData implements Serializable {
 
+	/**
+	 * ディーラー
+	 */
 	private Dealer dealer;
 
+	/**
+	 * プレイヤー　CPU
+	 */
 	private Player cpu;
 
+	/**
+	 * プレイヤー　あなた
+	 */
 	private Player you;
 
+	/**
+	 * ゲームターン
+	 */
 	private int turn;
 
 	/**
+	 * コンストラクタ
+	 * @param cpuName CPUの名前
+	 * @param youName あなたの名前
 	 *
 	 */
-	public GameData() {
+	public GameData(String cpuName, String youName) {
 
 		dealer = new Dealer();
 
@@ -35,14 +48,15 @@ public class GameData implements Serializable {
 
 		you = new Player();
 
-		cpu.setName(Main.resource.findByStringsId(R.CPUNAME));
+		cpu.setName(cpuName);
 
-		you.setName(Main.resource.findByStringsId(R.YOUNAME));
+		you.setName(youName);
 
 		turn = 1;
 	}
 
 	/**
+	 * ディーラーを取得
 	 * @return dealer
 	 */
 	public Dealer getDealer() {
@@ -50,6 +64,7 @@ public class GameData implements Serializable {
 	}
 
 	/**
+	 * プレイヤー　CPUを取得
 	 * @return cpu
 	 */
 	public Player getCpu() {
@@ -57,16 +72,24 @@ public class GameData implements Serializable {
 	}
 
 	/**
+	 * プレイヤー　あなたを取得
 	 * @return you
 	 */
 	public Player getYou() {
 		return you;
 	}
 
+	/**
+	 * 現在のターンを取得
+	 * @return
+	 */
 	public int getTurn() {
 		return turn;
 	}
 
+	/**
+	 * 次のターンにする
+	 */
 	public void incrementTurn() {
 		turn++;
 	}
