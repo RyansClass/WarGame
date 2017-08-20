@@ -36,6 +36,11 @@ public final class Dealer extends Actor {
 		this.hand.shuffle();
 	}
 
+	/**
+	 * 手札を受け取る
+	 * @param player プレイヤー
+	 * @param card 手札
+	 */
 	public void setHandCard(Player player, Card card) {
 		
 		this.deck.put(player.getName(), card);

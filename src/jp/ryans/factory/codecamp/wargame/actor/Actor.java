@@ -15,18 +15,18 @@ import jp.ryans.factory.codecamp.wargame.item.Trump;
 public abstract class Actor implements Serializable {
 
 	/**
-	 * 
+	 * 獲得したカードを格納する
 	 * @param trmp
 	 */
 	public abstract void putPost(Trump trmp);
 
 	/**
-	 * 
+	 * 手札
 	 */
 	protected Trump hand;
 
 	/**
-	 * 
+	 * 獲得カード
 	 */
 	protected Trump post;
 
@@ -63,7 +63,7 @@ public abstract class Actor implements Serializable {
 	}
 
 	/**
-	 * 
+	 * 獲得カードを追加
 	 * @param card
 	 */
 	public void setPostCard(Card card) {
@@ -71,7 +71,7 @@ public abstract class Actor implements Serializable {
 	}
 
 	/**
-	 * 
+	 * 手札を取得
 	 * @return
 	 */
 	public Card getHandCard() {
@@ -79,7 +79,7 @@ public abstract class Actor implements Serializable {
 	}
 
 	/**
-	 * 
+	 * 獲得カードを取得
 	 * @return
 	 */
 	public Card getPostCard() {
@@ -87,7 +87,7 @@ public abstract class Actor implements Serializable {
 	}
 
 	/**
-	 * 
+	 * 手札が空か検査
 	 * @return
 	 */
 	public boolean isHandEmpty() {
