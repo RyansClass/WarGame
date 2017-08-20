@@ -2,6 +2,7 @@ package jp.ryans.factory.codecamp.wargame.data;
 
 import java.io.File;
 
+import jp.ryans.factory.codecamp.wargame.resource.R;
 import jp.ryans.factory.codecamp.wargame.resource.Strings;
 
 import org.apache.logging.log4j.LogManager;
@@ -41,9 +42,12 @@ public class FileRoot {
 	 * @param r 国際化対応リソース
 	 * @param filename ファイルパス
 	 */
-	public FileRoot(Strings r,String filename) {
+	public FileRoot(Strings r, String filename) {
+		
 		this.resource = r;
+		
 		this.filename = filename;
+		
 	}
 
 	/**
@@ -52,7 +56,23 @@ public class FileRoot {
 	 */
 	public boolean isFileCheck() {
 
-		return (new File(filename)).exists();
+		File f = new File(filename);
+
+		try {
+			
+			if (f.exists()) {
+				
+				return true;
+				
+			}
+			
+		} catch (SecurityException e) {
+			
+			logger.error(resource.findByErrorsId(R.SECURITYEXCEPTION));
+			
+		}
+
+		return false;
 	}
 
 	/**
@@ -61,7 +81,15 @@ public class FileRoot {
 	public void delete() {
 
 		File ｆ = new File(filename);
-
-		ｆ.delete();
+		
+		try {
+			
+			ｆ.delete();
+			
+		} catch (SecurityException e) {
+			
+			logger.error(resource.findByErrorsId(R.SECURITYEXCEPTION));
+			
+		}
 	}
 }

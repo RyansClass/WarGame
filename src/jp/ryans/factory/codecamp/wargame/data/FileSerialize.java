@@ -14,7 +14,7 @@ import jp.ryans.factory.codecamp.wargame.resource.R;
 import jp.ryans.factory.codecamp.wargame.resource.Strings;
 
 /**
- *
+ * シリアライズしたクラスをファイルへ保存または読み込むクラス
  */
 public class FileSerialize<T> extends FileRoot {
 
@@ -22,8 +22,10 @@ public class FileSerialize<T> extends FileRoot {
 	 * コンストラクタ
 	 * @param filename ファイル名
 	 */
-	public FileSerialize(Strings r,String filename) {
-		super(r,filename);
+	public FileSerialize(Strings r, String filename) {
+
+		super(r, filename);
+
 	}
 
 	/**
